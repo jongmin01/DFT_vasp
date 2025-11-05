@@ -1,145 +1,185 @@
-# file: plot_bs_dos_annotated.py
-# Goal: Plot band (line-mode, SOC) + total DOS and annotate VBM/CBM, Eg, and high-symmetry ticks.
-# Works across pymatgen versions by avoiding projection-only helpers.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+plot_band_from_vasprun_v2_6.py
 
-from pathlib import Path
-import numpy as np
+- Input: multiple vasprun.xml paths
+- Output: PNG band plots saved in plots/bands/
+- sumo NOT required (pymatgen + matplotlib only)
+- Default behavior (no extra options needed):
+    * orbital-projected colors (if available)
+    * label edges (gap/type/vbm/cbm)
+    * auto-detect SOC/NoSOC tag
+    * auto-detect strain number from folder name
+
+If projected data is missing → automatically falls back to normal band colors.
+"""
+
+import os
+import re
+import argparse
 import matplotlib.pyplot as plt
+from pymatgen.io.vasp.outputs import BSVasprun
+from pymatgen.electronic_structure.bandstructure import BandStructureSymmLine
+from pymatgen.electronic_structure.plotter import BSPlotter, BSPlotterProjected
 
-from pymatgen.io.vasp.outputs import BSVasprun, Vasprun
-from pymatgen.electronic_structure.core import Spin
-from pymatgen.electronic_structure.plotter import BSPlotter
 
-# ==== USER CONFIG ====
-band_dir = Path("Your vasprun.xml path")   # <- BAND run (line-mode KPOINTS) with vasprun.xml
-dos_dir  = band_dir                            # <- DOS-capable vasprun.xml (can be same dir)
-ylim = (-3, 3)                                 # y-range around EF for both panels
-
-# ==== Load inputs ====
-vxml_band = band_dir / "vasprun.xml"
-vxml_dos  = dos_dir  / "vasprun.xml"
-if not vxml_band.exists():
-    raise FileNotFoundError(f"Band vasprun.xml not found: {vxml_band}")
-if not vxml_dos.exists():
-    raise FileNotFoundError(f"DOS vasprun.xml not found:  {vxml_dos}")
-
-# Parse band (symmetry lines)
-bsv = BSVasprun(str(vxml_band), parse_projected_eigen=False)
-bs  = bsv.get_band_structure(line_mode=True)  # BandStructureSymmLine
-
-# Extract distances (x), ticks (vertical lines) and labels
-def get_ticks_safe(bsobj):
-    """Return (tick_positions, tick_labels). Falls back to k-point labels if needed."""
+def extract_strain(path):
+    """Return strain as decimal string, e.g. strain_099 → 0.99."""
+    m = re.search(r"strain[_-]?(\d+)", path.lower())
+    if not m:
+        return ""
+    raw = m.group(1)
     try:
-        ticks = bsobj.get_ticks()
-        return ticks["distance"], ticks["label"]
-    except Exception:
-        # Fallback: collect k-points with a label and use their distances
-        dists, labels = [], []
-        for kp, dist in zip(bsobj.kpoints, bsobj.distance):
-            if kp.label:
-                dists.append(dist)
-                labels.append(kp.label)
-        # Ensure at least segment boundaries (Γ, K, M, Γ) appear
-        return dists, labels
+        if len(raw) == 3:
+            return f"{int(raw)/100:.2f}"
+        elif len(raw) == 2:
+            return f"{int(raw)/10:.1f}"
+        else:
+            return raw
+    except:
+        return raw
 
-tick_pos, tick_lbl = get_ticks_safe(bs)
 
-# Energies array and distances
-efermi = bs.efermi
-# Choose first available spin
-spin = list(bs.bands.keys())[0]
-E = np.array(bs.bands[spin])  # shape: (nbands, nkpts)
-# Shift energies to EF=0 for plotting and gap search
-E_shift = E - efermi
-x = np.array(bs.distance)
+def detect_tag(path):
+    """Return SOC or NoSOC if detected in path, else ''."""
+    p = path.lower()
+    if "soc" in p and "nosoc" not in p:
+        return "SOC"
+    elif "nosoc" in p:
+        return "NoSOC"
+    return ""
 
-# Compute VBM/CBM and gap
-def vbm_cbm_from_bands(E_shift):
-    """Return (VBM_e, VBM_k, VBM_band), (CBM_e, CBM_k, CBM_band), Eg"""
-    nb, nk = E_shift.shape
-    vbm_e, vbm_k, vbm_b = -1e9, -1, -1
-    cbm_e, cbm_k, cbm_b = +1e9, -1, -1
-    for k in range(nk):
-        col = E_shift[:, k]
-        # occupied bands: e <= 0; empty: e > 0
-        occ_idx = np.where(col <= 0.0)[0]
-        emp_idx = np.where(col >  0.0)[0]
-        if occ_idx.size > 0:
-            e_top = col[occ_idx].max()
-            b_top = occ_idx[col[occ_idx].argmax()]
-            if e_top > vbm_e:
-                vbm_e, vbm_k, vbm_b = float(e_top), k, int(b_top)
-        if emp_idx.size > 0:
-            e_bot = col[emp_idx].min()
-            b_bot = emp_idx[col[emp_idx].argmin()]
-            if e_bot < cbm_e:
-                cbm_e, cbm_k, cbm_b = float(e_bot), k, int(b_bot)
-    Eg = max(0.0, cbm_e - vbm_e)
-    return (vbm_e, vbm_k, vbm_b), (cbm_e, cbm_k, cbm_b), Eg
 
-(v_e, v_k, v_b), (c_e, c_k, c_b), Eg = vbm_cbm_from_bands(E_shift)
-is_direct = (v_k == c_k)
+def plot_single_band(xml_path, out_path,
+                     emin, emax,
+                     use_project, label_edges,
+                     auto_tag, auto_strain):
+    """Load vasprun.xml → shift VBM to 0 → plot → PNG."""
+    print(f"[DEBUG] Reading: {xml_path}")
 
-# Prepare DOS
-vr_dos = Vasprun(str(vxml_dos), parse_projected_eigen=False)
-cdos   = vr_dos.complete_dos
-common_efermi = bs.efermi
-E_shift = E - common_efermi
-E_dos   = cdos.energies - common_efermi
-D_up   = cdos.densities.get(Spin.up, None)
-D_dn   = cdos.densities.get(Spin.down, None)
+    # Load band structure
+    v = BSVasprun(xml_path, parse_projected_eigen=use_project)
+    bs = v.get_band_structure(line_mode=True)
 
-# ==== Plot ====
-fig, (ax_b, ax_d) = plt.subplots(1, 2, figsize=(10, 4), gridspec_kw={"width_ratios": [2.2, 1.0]})
+    gap   = bs.get_band_gap()
+    vbm   = bs.get_vbm()
+    cbm   = bs.get_cbm()
+    Eg    = float(gap.get("energy", 0.0))
+    gtype = "direct" if gap.get("direct", False) else "indirect"
 
-# Left: band structure
-for b in range(E_shift.shape[0]):
-    ax_b.plot(x, E_shift[b, :], lw=1.0)
+    vbm_e = float(vbm["energy"])
 
-# High-symmetry vertical lines and labels
-for t in tick_pos:
-    ax_b.axvline(t, color="k", lw=1.8)
-# If matplotlib placed labels from BSPlotter, great. Otherwise, add simple ticks for Γ–K–M–Γ
-# Try to use BSPlotter just to draw its x-ticks nicely, then copy them.
-try:
-    bsplt = BSPlotter(bs)
-    tmp = bsplt.get_plot(ylim=ylim)
-    # figure or axes, we only need xticks/labels
-    ax_src = tmp.axes[0] if hasattr(tmp, "axes") else tmp
-    ax_b.set_xticks(ax_src.get_xticks())
-    ax_b.set_xticklabels([lbl.get_text() for lbl in ax_src.get_xticklabels()])
-    plt.close(tmp if hasattr(tmp, "savefig") else None)
-except Exception:
-    if tick_pos and tick_lbl:
-        ax_b.set_xticks(tick_pos)
-        ax_b.set_xticklabels(tick_lbl)
+    # Force VBM = 0 eV by rewriting efermi
+    d = bs.as_dict()
+    d["efermi"] = vbm_e
+    bs_vbm0 = BandStructureSymmLine.from_dict(d)
 
-ax_b.axhline(0.0, ls="--", lw=0.8, color="tab:blue", alpha=0.8)
-ax_b.set_title("Band structure (SOC)")
-ax_b.set_ylim(*ylim)
-ax_b.set_ylabel("Energy (eV)")
+    # Auto tag
+    tag = detect_tag(xml_path) if auto_tag else ""
 
-# Annotate VBM/CBM and Eg
-ax_b.scatter([x[v_k]], [v_e], color="red", zorder=5, label="VBM")
-ax_b.scatter([x[c_k]], [c_e], color="green", zorder=5, label="CBM")
-txt = f"Eg = {Eg:.3f} eV  ({'direct' if is_direct else 'indirect'})"
-# Place text near the top-left
-ax_b.text(0.02, 0.95, txt, transform=ax_b.transAxes, va="top", ha="left",
-          bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8), fontsize=10)
-ax_b.legend(frameon=False, loc="lower left")
+    # Auto strain
+    strain_txt = extract_strain(xml_path) if auto_strain else ""
 
-# Right: total DOS
-if D_up is not None:
-    ax_d.plot(D_up, E_dos, lw=1.0)
-if D_dn is not None:
-    ax_d.plot(-D_dn, E_dos, lw=1.0)  # mirror spin-down if present
-ax_d.axhline(0.0, ls="--", lw=0.8, color="tab:blue", alpha=0.8)
-ax_d.set_ylim(*ylim)
-ax_d.set_xlabel("DOS")
-ax_d.set_yticklabels([])  # keep energy only on band panel
+    # Title
+    title_txt = "Band Structure"
+    if strain_txt:
+        title_txt += f" (strain {strain_txt})"
+    if tag:
+        title_txt += f" – {tag}"
 
-plt.tight_layout()
-out = band_dir / "band_dos_annotated.png"
-fig.savefig(out, dpi=300, bbox_inches="tight")
-print(f"[OK] Saved: {out}")
+    # Try projected plot, fallback if no projected data
+    if use_project:
+        try:
+            print("   -> Attempting orbital-projected plotting...")
+            bsplt = BSPlotterProjected(bs_vbm0)
+            projected_on = True
+        except ValueError:
+            print("   -> No projected data found. Falling back to normal band colors.")
+            bsplt = BSPlotter(bs_vbm0)
+            projected_on = False
+    else:
+        bsplt = BSPlotter(bs_vbm0)
+        projected_on = False
+
+    # Draw plot
+    ax = bsplt.get_plot()
+    ax.set_ylim(emin, emax)
+    ax.axhline(0.0, ls="--", lw=0.8, alpha=0.6, color="black", label="VBM=0 eV")
+    ax.set_ylabel("Energy (eV)")
+    ax.set_title(title_txt)
+
+    # Gap annotation
+    if label_edges:
+        def klabel(edge):
+            kp = edge.get("kpoint", None)
+            if kp is not None and getattr(kp, "label", None):
+                return kp.label
+            idx = edge.get("kpoint_index", None)
+            return f"k#{idx}" if idx is not None else "unknown"
+
+        info = f"Gap={Eg:.3f} eV ({gtype}), VBM@{klabel(vbm)}, CBM@{klabel(cbm)}"
+        ax.text(0.02, 0.98, info, transform=ax.transAxes,
+                va="top", ha="left", fontsize=9,
+                bbox=dict(facecolor="white", alpha=0.6, edgecolor="none"))
+
+    # Legend
+    ax.legend(loc="lower left", fontsize=8)
+
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+    print(f"[OK] Saved: {out_path}")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-f", "--files", nargs="+", required=True,
+                    help="Paths to vasprun.xml files")
+
+    ap.add_argument("--emin", type=float, default=-3.0)
+    ap.add_argument("--emax", type=float, default= 3.0)
+
+    # Default settings: ON
+    ap.add_argument("--no-project", action="store_true")
+    ap.add_argument("--no-label",   action="store_true")
+    ap.add_argument("--no-tag",     action="store_true")
+    ap.add_argument("--no-strain",  action="store_true")
+
+    args = ap.parse_args()
+
+    # Defaults (unless disabled)
+    use_project = not args.no_project
+    label_edges = not args.no_label
+    auto_tag    = not args.no_tag
+    auto_strain = not args.no_strain
+
+    out_dir = "plots/bands"
+    os.makedirs(out_dir, exist_ok=True)
+
+    for xml in args.files:
+        if not os.path.isfile(xml):
+            print(f"[WARN] File not found: {xml}")
+            continue
+
+        base = xml.replace("/", "_").replace("vasprun.xml", "")
+        base = base.strip("_")
+        out_path = os.path.join(out_dir, f"{base}.png")
+
+        plot_single_band(
+            xml_path=xml,
+            out_path=out_path,
+            emin=args.emin,
+            emax=args.emax,
+            use_project=use_project,
+            label_edges=label_edges,
+            auto_tag=auto_tag,
+            auto_strain=auto_strain
+        )
+
+    print("\n[DONE] All band plots saved in plots/bands/")
+
+
+if __name__ == "__main__":
+    main()
+
