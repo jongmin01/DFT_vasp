@@ -1,5 +1,9 @@
 # VASP Output Files - Large files excluded from repository
-# Keep essential files: INCAR, POSCAR, KPOINTS, CONTCAR, POTCAR, vasprun.xml
+# Keep essential files: INCAR, POSCAR, KPOINTS, CONTCAR, vasprun.xml
+
+# Pseudopotentials (IMPORTANT: excluded for public repository - license restrictions)
+POTCAR
+POTCAR.*
 
 # Large output files (data is in vasprun.xml)
 OUTCAR
@@ -57,7 +61,8 @@ __pycache__/
 # - POSCAR (initial structure)
 # - KPOINTS (k-point settings)
 # - CONTCAR (relaxed structure) - IMPORTANT for material info
-# - POTCAR (pseudopotentials)
 # - vasprun.xml (main output with most data)
 # - EIGENVAL (band structure)
 # - IBZKPT (k-points)
+#
+# NOTE: POTCAR is excluded for public repository due to VASP license restrictions

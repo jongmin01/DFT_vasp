@@ -6,13 +6,17 @@ Study of Janus transition metal dichalcogenide (TMDC) heterostructures.
 ## Current Research
 
 ### twisted_angle/
-Investigation of twist angle effects on electronic properties of Janus TMDC heterostructures.
+Investigation of twist angle effects on electronic properties and Moiré pattern formation in Janus TMDC heterostructures.
 
 **Systems studied**: MoSSe/WSSe heterostructures
 
-**Twist angles**: 0°, 10°, 20°, 30°, 40°, 50°, 60°
+**Initial test angles**: 0°, 5°, 10°, 15°, 20°
 
 **Status**: In progress - 0° relaxation ongoing
+
+**Future expansion**:
+- Additional angles will be added based on Moiré pattern analysis
+- Goal: Identify critical angles for unique electronic properties
 
 ## Directory Structure
 
