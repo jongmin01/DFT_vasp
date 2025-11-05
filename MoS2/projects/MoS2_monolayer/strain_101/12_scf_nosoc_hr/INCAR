@@ -1,0 +1,32 @@
+SYSTEM = MoS2 monolayer SCF-highres (SOC OFF)
+
+# --- Electronic ---
+ISTART = 1            # reuse WAVECAR
+ICHARG = 11           # fixed charge density (from CHGCAR)
+ISPIN  = 2
+LSORBIT = .FALSE.
+LNONCOLLINEAR = .FALSE.
+
+ENCUT  = 600
+EDIFF  = 1E-7
+ISMEAR = 0
+SIGMA  = 0.05
+PREC   = Accurate
+ALGO   = Normal
+LREAL  = .FALSE.
+NELM   = 200
+
+# --- Ions/Cell ---
+IBRION = -1
+NSW    = 0
+ISIF   = 2
+
+# --- Slab dipole (2D) ---
+LDIPOL = .TRUE.
+IDIPOL = 3
+DIPOL  = 0.5 0.5 0.5
+
+# --- Outputs ---
+LWAVE  = .TRUE.
+LCHARG = .TRUE.
+NEDOS  = 5000
