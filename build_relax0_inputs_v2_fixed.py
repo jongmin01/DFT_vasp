@@ -73,8 +73,7 @@ combinations_to_run = [
 def write_poscar_grouped(filename, atoms, comment="Structure"):
     """
     Write POSCAR with properly grouped elements (Direct coordinates)
-    Preserves layer structure: bottom layer elements, then top layer elements
-    Each layer's elements are grouped separately
+    Fixed: Elements are grouped globally, not per-layer
     """
     
     # Get all symbols and positions
@@ -82,43 +81,7 @@ def write_poscar_grouped(filename, atoms, comment="Structure"):
     positions = atoms.get_scaled_positions()
     cell = atoms.get_cell()
     
-    # Split into bottom and top layers based on Cartesian z-coordinate
-    # More robust for heterostructures with large vacuum
-    n_atoms = len(symbols)
-    
-    # Get Cartesian z-coordinates for splitting
-    positions_cart = atoms.get_positions()
-    z_coords_cart = positions_cart[:, 2]
-    
-    # Find the gap between layers in Cartesian coordinates
-    z_sorted_indices = np.argsort(z_coords_cart)
-    z_sorted_cart = z_coords_cart[z_sorted_indices]
-    z_diffs_cart = np.diff(z_sorted_cart)
-    max_gap_idx = np.argmax(z_diffs_cart)
-    
-    # Split point: middle of the largest gap (in Cartesian)
-    z_split_cart = (z_sorted_cart[max_gap_idx] + z_sorted_cart[max_gap_idx + 1]) / 2
-    
-    # Separate atoms into bottom and top layers (Cartesian-based)
-    bottom_indices = [i for i, z in enumerate(z_coords_cart) if z < z_split_cart]
-    top_indices = [i for i, z in enumerate(z_coords_cart) if z >= z_split_cart]
-    
-    bottom_symbols = [symbols[i] for i in bottom_indices]
-    top_symbols = [symbols[i] for i in top_indices]
-    bottom_positions = positions[bottom_indices]  # Keep fractional for POSCAR
-    top_positions = positions[top_indices]
-    
-    print(f"  Layer split at z = {z_split_cart:.4f} Å (Cartesian)")
-    print(f"  Split: {len(bottom_symbols)} bottom + {len(top_symbols)} top atoms")
-    
-    # Debug: show element distribution in each layer
-    from collections import Counter
-    bottom_counts = Counter(bottom_symbols)
-    top_counts = Counter(top_symbols)
-    print(f"  Bottom layer: {dict(bottom_counts)}")
-    print(f"  Top layer: {dict(top_counts)}")
-    
-    # Get unique elements in each layer (preserving order)
+    # Get unique elements in order of appearance (globally)
     def get_unique_ordered(symbol_list):
         unique = []
         seen = set()
@@ -128,37 +91,31 @@ def write_poscar_grouped(filename, atoms, comment="Structure"):
                 seen.add(sym)
         return unique
     
-    bottom_elements = get_unique_ordered(bottom_symbols)
-    top_elements = get_unique_ordered(top_symbols)
+    element_order = get_unique_ordered(symbols)
     
-    # Build element order: bottom elements + top elements
-    element_order = bottom_elements + top_elements
-    
-    # Group and sort atoms by element within each layer
-    # Keep track of which elements came from which layer
+    # Group atoms by element while preserving layer structure
+    # Strategy: Sort by element type, but within each element keep z-order
     sorted_symbols = []
     sorted_positions = []
-    element_counts_ordered = []
+    element_counts = []
     
-    # Process bottom layer
-    for element in bottom_elements:
-        count = 0
-        for i, sym in enumerate(bottom_symbols):
-            if sym == element:
-                sorted_symbols.append(sym)
-                sorted_positions.append(bottom_positions[i])
-                count += 1
-        element_counts_ordered.append(count)
-    
-    # Process top layer
-    for element in top_elements:
-        count = 0
-        for i, sym in enumerate(top_symbols):
-            if sym == element:
-                sorted_symbols.append(sym)
-                sorted_positions.append(top_positions[i])
-                count += 1
-        element_counts_ordered.append(count)
+    for element in element_order:
+        # Get all atoms of this element
+        element_indices = [i for i, sym in enumerate(symbols) if sym == element]
+        element_positions = positions[element_indices]
+        
+        # Sort by z-coordinate to preserve layer structure
+        z_coords = element_positions[:, 2]
+        sorted_z_indices = np.argsort(z_coords)
+        
+        # Add to sorted lists
+        count = len(element_indices)
+        element_counts.append(count)
+        
+        for idx in sorted_z_indices:
+            orig_idx = element_indices[idx]
+            sorted_symbols.append(symbols[orig_idx])
+            sorted_positions.append(positions[orig_idx])
     
     sorted_positions = np.array(sorted_positions)
     
@@ -178,7 +135,7 @@ def write_poscar_grouped(filename, atoms, comment="Structure"):
         f.write(" ".join(element_order) + "\n")
         
         # Element counts
-        f.write(" ".join(map(str, element_counts_ordered)) + "\n")
+        f.write(" ".join(map(str, element_counts)) + "\n")
         
         # Direct coordinates
         f.write("Direct\n")
@@ -186,11 +143,19 @@ def write_poscar_grouped(filename, atoms, comment="Structure"):
         # Write positions with element labels
         atom_index = 0
         for i, elem in enumerate(element_order):
-            elem_count = element_counts_ordered[i]
+            elem_count = element_counts[i]
             for j in range(elem_count):
                 pos = sorted_positions[atom_index]
                 f.write(f"  {pos[0]:20.16f}  {pos[1]:20.16f}  {pos[2]:20.16f}  {elem}\n")
                 atom_index += 1
+    
+    # Print debug info
+    from collections import Counter
+    total_counts = Counter(symbols)
+    print(f"  Element order: {element_order}")
+    print(f"  Element counts: {element_counts}")
+    print(f"  Total atoms: {sum(element_counts)}")
+    print(f"  Verification: {dict(total_counts)}")
     
     return element_order
 
