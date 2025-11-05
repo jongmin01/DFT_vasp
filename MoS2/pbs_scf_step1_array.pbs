@@ -1,0 +1,38 @@
+#!/bin/bash -l
+#PBS -N MoS2_SOC_SCF1
+#PBS -A cnm84150
+#PBS -q batch
+#PBS -l nodes=1:ppn=8
+#PBS -l walltime=00:40:00
+#PBS -t 1-3
+#PBS -j oe
+#PBS -V
+#PBS -m bae
+#PBS -M jbaek27@uic.edu
+
+
+cd "$PBS_O_WORKDIR"
+
+module purge
+module load vasp5
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+# Map array index to strain directory
+case "$PBS_ARRAYID" in
+  1) D="strain_099";;
+  2) D="strain_100";;
+  3) D="strain_101";;
+  *) echo "Bad PBS_ARRAYID=$PBS_ARRAYID"; exit 2;;
+esac
+
+cd "$D/11_scf_soc_warm"
+
+# Safety: do not reuse any old collinear WAVECAR
+[ -f WAVECAR ] && mv WAVECAR WAVECAR.prev 2>/dev/null || true
+
+if command -v vasp_ncl >/dev/null 2>&1; then
+  mpirun -np 8 vasp_ncl > vasp.out
+else
+  mpirun -np 8 vasp_std > vasp.out
+fi
