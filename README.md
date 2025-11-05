@@ -39,17 +39,17 @@ Each material/system typically includes the following calculation directories:
 - **POSCAR** - Initial atomic structure
 - **KPOINTS** - K-point mesh settings
 - **CONTCAR** - Relaxed structure (contains material information)
-- **POTCAR** - Pseudopotentials
 - **vasprun.xml** - Main output file with calculation results
 - **EIGENVAL** - Eigenvalues for band structure
 
 ## Files Excluded (in .gitignore)
 
-Large files are excluded from the repository as their data is contained in vasprun.xml:
-- OUTCAR (large, data in vasprun.xml)
-- WAVECAR (very large wavefunction files)
-- CHG/CHGCAR (large charge density files)
-- DOSCAR (data in vasprun.xml)
+Large files and licensed files are excluded from the repository:
+- **POTCAR** - Pseudopotentials (excluded due to VASP license restrictions for public repositories)
+- **OUTCAR** - Large output file (data is in vasprun.xml)
+- **WAVECAR** - Very large wavefunction files
+- **CHG/CHGCAR** - Large charge density files
+- **DOSCAR** - DOS data (data is in vasprun.xml)
 
 ## Current Projects
 
@@ -62,10 +62,14 @@ Large files are excluded from the repository as their data is contained in vaspr
 
 ### 2. TMDC Janus Heterostructure - Twisted Angle Study
 **Status**: In progress
-- Research focus: Effect of twist angles on electronic properties
+- Research focus: Effect of twist angles on electronic properties and Moiré pattern formation
 - Systems: MoSSe/WSSe heterostructures
-- Angles: 0°, 10°, 20°, 30°, 40°, 50°, 60°
+- Initial test angles: 0°, 5°, 10°, 15°, 20°
 - Current: 0° relaxation in progress
+- Future plans:
+  - Extend to additional angles based on Moiré pattern analysis
+  - Investigate other TMDC Janus combinations
+  - Study other semiconductor heterostructures
 
 ## Adding New Projects
 
