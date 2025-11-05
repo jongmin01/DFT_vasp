@@ -1,0 +1,63 @@
+# VASP Output Files - Large files excluded from repository
+# Keep essential files: INCAR, POSCAR, KPOINTS, CONTCAR, POTCAR, vasprun.xml
+
+# Large output files (data is in vasprun.xml)
+OUTCAR
+OUTCAR.*
+
+# Wavefunction files (very large)
+WAVECAR
+WAVECAR.*
+WAVEDER
+WAVEDER.*
+
+# Charge density files (large)
+CHG
+CHG.*
+CHGCAR
+CHGCAR.*
+
+# DOS files (data is in vasprun.xml)
+DOSCAR
+DOSCAR.*
+
+# Other large files
+PCDAT
+PCDAT.*
+XDATCAR
+XDATCAR.*
+LOCPOT
+LOCPOT.*
+ELFCAR
+ELFCAR.*
+PROCAR
+PROCAR.*
+
+# Temporary files
+*.tmp
+*.swp
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Keep these important files:
+# - INCAR (input parameters)
+# - POSCAR (initial structure)
+# - KPOINTS (k-point settings)
+# - CONTCAR (relaxed structure) - IMPORTANT for material info
+# - POTCAR (pseudopotentials)
+# - vasprun.xml (main output with most data)
+# - EIGENVAL (band structure)
+# - IBZKPT (k-points)
