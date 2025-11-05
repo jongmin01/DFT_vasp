@@ -1,0 +1,25 @@
+SYSTEM = MoS2 band (SOC OFF)
+
+# --- Electronic (static band) ---
+ISTART = 1            # read WAVECAR
+ICHARG = 11           # read CHGCAR (fixed)
+ISPIN  = 2
+LSORBIT = .FALSE.
+LNONCOLLINEAR = .FALSE.
+
+ENCUT  = 600
+EDIFF  = 1E-8
+ISMEAR = 0
+SIGMA  = 0.05
+PREC   = Accurate
+ALGO   = Normal
+LREAL  = .FALSE.
+
+# --- No ions/cell movement ---
+IBRION = -1
+NSW    = 0
+ISIF   = 2
+
+# --- Outputs ---
+LWAVE  = .FALSE.
+LCHARG = .FALSE.

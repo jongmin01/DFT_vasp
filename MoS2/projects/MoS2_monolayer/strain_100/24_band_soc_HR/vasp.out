@@ -1,0 +1,61 @@
+ running on    8 total cores
+ distrk:  each k-point on    2 cores,    4 groups
+ distr:  one band on    2 cores,    1 groups
+ using from now: INCAR     
+ vasp.5.4.1 05Feb16 (build Feb 01 2017 11:38:15) complex                        
+  
+ POSCAR found type information on POSCAR  Mo S 
+ POSCAR found :  2 types and       3 ions
+ scaLAPACK will be used
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|      You have enabled k-point parallelism (KPAR>1).                         |
+|      This developmental code was originally  written by Paul Kent at ORNL,  |
+|      and carefully double checked in Vienna.                                |
+|      GW as well as linear response parallelism added by Martijn Marsman     |
+|      and Georg Kresse.                                                      |
+|      Carefully verify results versus KPAR=1.                                |
+|      Report problems to Paul Kent and Vienna.                               |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+ LDA part: xc-table for Pade appr. of Perdew
+ found WAVECAR, reading the header
+  number of bands has changed, file:    40 present:    96
+  trying to continue reading WAVECAR, but it might fail
+  number of k-points has changed, file:   144 present:   360
+  trying to continue reading WAVECAR, but it might fail
+ WARNING: stress and forces are not correct
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ reading WAVECAR
+ random initialization beyond band           41
+ the WAVECAR file was read successfully
+ reading imaginary part of occupancies ...
+ charge-density read from file: MoS2                                    
+ reading imaginary part of occupancies ...
+ magnetization density read from file 1
+ reading imaginary part of occupancies ...
+ magnetization density read from file 2
+ reading imaginary part of occupancies ...
+ magnetization density read from file 3
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.238186517909E+02    0.23819E+02   -0.11234E+03 78152   0.106E+02
+DAV:   2    -0.205863111790E+02   -0.44405E+02   -0.41639E+02 80864   0.631E+01
+DAV:   3    -0.220578633355E+02   -0.14716E+01   -0.14566E+01 89160   0.105E+01
+DAV:   4    -0.220945715519E+02   -0.36708E-01   -0.36681E-01 86496   0.169E+00
+DAV:   5    -0.220956763087E+02   -0.11048E-02   -0.11045E-02 93552   0.271E-01
+DAV:   6    -0.220957159903E+02   -0.39682E-04   -0.39673E-04 99360   0.448E-02
+DAV:   7    -0.220957166783E+02   -0.68800E-06   -0.68759E-06 96504   0.573E-03
+DAV:   8    -0.220957167000E+02   -0.21688E-07   -0.21451E-07 98272   0.828E-04
+DAV:   9    -0.220957167008E+02   -0.79490E-09   -0.56744E-09 80728   0.124E-04
+   1 F= -.22095717E+02 E0= -.22095717E+02  d E =-.384640E-22  mag=     0.0000     0.0000     0.0000
