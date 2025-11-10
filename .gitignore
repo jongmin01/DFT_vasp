@@ -36,6 +36,8 @@ ELFCAR
 ELFCAR.*
 PROCAR
 PROCAR.*
+projects/MoS2_monolayer/90_analysis/MoS2_strain_plots/*/soc/vasprun.xml
+projects/TMDC_Janus_heterostructure/20_static_scf/*/scf/vasprun.xml
 
 # Temporary files
 *.tmp

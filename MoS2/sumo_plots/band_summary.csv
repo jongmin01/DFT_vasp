@@ -1,7 +1,0 @@
-strain,mode,Eg(eV),type,VBM_k,CBM_k,VBM(eV)
-strain_099,soc,1.658,direct,K,K,-5.358400
-strain_099,nosoc,1.738,direct,K,K,-3.771000
-strain_100,soc,1.561,direct,K,K,-5.403000
-strain_100,nosoc,1.611,indirect,Γ,K,-3.811400
-strain_101,soc,1.419,indirect,Γ,K,-5.398900
-strain_101,nosoc,1.445,indirect,Γ,K,-3.804800

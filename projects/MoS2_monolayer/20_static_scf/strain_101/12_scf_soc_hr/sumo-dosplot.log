@@ -1,0 +1,1 @@
+/Library/Frameworks/Python.framework/Versions/3.13/bin/sumo-dosplot -f vasprun.xml --zero-energy -5.200797 --xmin -5.0 --xmax 5.0 --format png -o /Users/jongmin/vasp/MoS2/plots/dos/dos_101_soc.png

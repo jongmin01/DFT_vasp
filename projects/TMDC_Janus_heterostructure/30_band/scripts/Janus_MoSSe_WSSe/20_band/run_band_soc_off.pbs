@@ -1,0 +1,138 @@
+#!/bin/bash
+#PBS -N band_soc_off
+#PBS -A cnm84150
+#PBS -q batch
+#PBS -l nodes=2:ppn=16:gen6
+#PBS -l walltime=12:00:00
+#PBS -l naccesspolicy=SINGLEJOB -n
+#PBS -j oe
+#PBS -m abe
+#PBS -M jbaek27@uic.edu
+
+# ============================================================
+# PBS Job Script for Band Structure Calculation (SOC OFF)
+# Purpose: Calculate band structure along high-symmetry path
+# ============================================================
+
+echo "========================================"
+echo "Job started on $(hostname) at $(date)"
+echo "Job ID: $PBS_JOBID"
+echo "Job Name: $PBS_JOBNAME"
+echo "Working directory: $PBS_O_WORKDIR"
+echo "========================================"
+
+# Load modules
+module load vasp5
+module list
+
+# Change to working directory
+cd $PBS_O_WORKDIR
+echo "Running in: $(pwd)"
+
+# Print node information
+echo "Nodes allocated:"
+cat $PBS_NODEFILE
+echo ""
+echo "Number of cores: 32"
+echo ""
+
+# Check required files
+echo "========================================"
+echo "Checking input files..."
+for file in POSCAR INCAR KPOINTS POTCAR CHGCAR; do
+    if [ -f $file ]; then
+        echo "  OK: $file ($(stat -c%s $file) bytes)"
+    else
+        echo "  ERROR: $file not found!"
+        exit 1
+    fi
+done
+echo "========================================"
+
+# Print INCAR settings
+echo ""
+echo "INCAR settings:"
+grep -E "SYSTEM|IBRION|NSW|ICHARG|LORBIT" INCAR
+echo ""
+
+# Print KPOINTS
+echo "KPOINTS (first 10 lines):"
+head -10 KPOINTS
+echo ""
+
+# Print structure info
+echo "Structure info:"
+head -7 POSCAR | tail -2
+echo "========================================"
+echo ""
+
+# Run VASP (band structure calculation)
+echo "Starting band structure calculation at $(date)"
+echo "Command: mpirun -np 32 vasp_std"
+echo ""
+
+time mpirun -np 32 vasp_std > vasp_band.log 2>&1
+
+# Check completion
+echo ""
+echo "========================================"
+echo "Job finished at $(date)"
+echo "========================================"
+echo ""
+
+if [ -f OUTCAR ]; then
+    echo "OUTCAR found - calculation completed"
+    echo ""
+    
+    # Check convergence
+    if grep -q "reached required accuracy" OUTCAR; then
+        echo "*** CONVERGENCE ACHIEVED ***"
+    else
+        echo "WARNING: Check convergence in OUTCAR"
+    fi
+    echo ""
+    
+    # Extract final energy
+    echo "Final energy:"
+    grep "free  energy   TOTEN" OUTCAR | tail -1
+    echo ""
+    
+    # Check for errors
+    if grep -q "ERROR" OUTCAR 2>/dev/null; then
+        echo "WARNING: Errors found in OUTCAR:"
+        grep "ERROR" OUTCAR | head -5
+        echo ""
+    fi
+    
+    # File sizes
+    echo "Output files:"
+    ls -lh OUTCAR EIGENVAL DOSCAR 2>/dev/null | \
+        awk '{printf "  %s: %s\n", $9, $5}'
+    echo ""
+    
+    # Count k-points
+    if [ -f EIGENVAL ]; then
+        nkpts=$(head -6 EIGENVAL | tail -1 | awk '{print $2}')
+        echo "Number of k-points: $nkpts"
+        echo ""
+    fi
+    
+    # Summary
+    echo "Job summary:"
+    echo "  Working directory: $PBS_O_WORKDIR"
+    echo "  Job ID: $PBS_JOBID"
+    
+else
+    echo "*** WARNING: OUTCAR not found ***"
+    echo "Calculation may have failed"
+    echo ""
+    
+    if [ -f vasp_band.log ]; then
+        echo "Last 20 lines of vasp_band.log:"
+        tail -20 vasp_band.log
+    fi
+fi
+
+echo "========================================"
+echo "End of band structure calculation"
+echo "========================================"

@@ -1,0 +1,49 @@
+#!/bin/bash -l
+#PBS -N MoS2_SOC_SCF2
+#PBS -A cnm84150
+#PBS -q batch
+#PBS -l nodes=1:ppn=8
+#PBS -l walltime=03:00:00
+#PBS -t 1-3
+#PBS -j oe
+#PBS -V
+#PBS -m bae
+#PBS -M jbaek27@uic.edu
+
+
+cd "$PBS_O_WORKDIR"
+
+module purge
+module load vasp5
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+case "$PBS_ARRAYID" in
+  1) D="strain_099";; 2) D="strain_100";; 3) D="strain_101";;
+esac
+cd "$D/12_scf_soc_hr"
+
+# Inputs must exist
+for f in POSCAR POTCAR INCAR KPOINTS; do
+  [ -s "$f" ] || { echo "[FATAL] Missing $f"; exit 2; }
+done
+
+# Pull warm results if present
+[ -s ../11_scf_soc_warm/CHGCAR ] && cp -f ../11_scf_soc_warm/CHGCAR .
+[ -s ../11_scf_soc_warm/WAVECAR ] && cp -f ../11_scf_soc_warm/WAVECAR .
+
+# If CHGCAR missing/empty, fall back to ICHARG=2; if WAVECAR missing, ISTART=0
+if [ ! -s CHGCAR ]; then sed -i 's/^\s*ICHARG\s*=.*/ICHARG = 2/' INCAR; fi
+if [ ! -s WAVECAR ]; then sed -i 's/^\s*ISTART\s*=.*/ISTART = 0/' INCAR; fi
+
+# Run (prefer SOC binary)
+if command -v vasp_ncl >/dev/null 2>&1; then
+  mpirun -np 8 vasp_ncl > vasp.out
+else
+  mpirun -np 8 vasp_std > vasp.out
+fi
+
+# Post-check
+for f in CHGCAR WAVECAR; do
+  if [ ! -s "$f" ]; then echo "[FATAL] $f is empty after SCF2"; exit 3; fi
+done

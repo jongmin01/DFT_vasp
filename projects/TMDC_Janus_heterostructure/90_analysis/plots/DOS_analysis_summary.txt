@@ -1,0 +1,16 @@
+======================================================================
+DOS Analysis Summary - MoSSe-WSSe Heterostructures
+======================================================================
+
+Structure                 Band Gap (eV)   VBM (eV)     CBM (eV)    
+----------------------------------------------------------------------
+Se-up / Se-up                1.399         -0.111       1.288
+Se-up / S-up                 1.222         -0.111       1.111
+S-up / Se-up                 1.220         -0.111       1.109
+S-up / S-up                  0.886         -0.111       0.775
+
+======================================================================
+Notes:
+- Band gaps are estimated from DOS (may differ from actual band structure)
+- VBM/CBM positions are relative to Fermi level (E_F = 0)
+- For accurate gap determination, band structure calculation recommended

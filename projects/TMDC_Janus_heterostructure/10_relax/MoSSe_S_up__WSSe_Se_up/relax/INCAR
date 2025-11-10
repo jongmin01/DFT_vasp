@@ -1,0 +1,38 @@
+# ===== System =====
+SYSTEM       = MoSSe-WSSe pre-relaxation (atoms only)
+# ===== Electronic Structure =====
+PREC         = Accurate
+ENCUT        = 520
+EDIFF        = 1.00E-05
+ALGO         = Normal
+NELM         = 100
+NELMIN       = 4
+# ===== Ionic Relaxation =====
+IBRION       = 2
+NSW          = 150
+EDIFFG       = -0.03
+POTIM        = 0.3
+# ===== Cell Relaxation =====
+ISIF         = 2
+PSTRESS      = 0.0
+# ===== Spin Polarization =====
+ISPIN        = 2
+MAGMOM       = 25*2.0 25*2.0 50*0.0 50*0.0
+# ===== vdW Correction =====
+IVDW         = 12
+# ===== k-space Integration =====
+ISMEAR       = 0
+SIGMA        = 0.05
+# ===== Accuracy =====
+LASPH        = .TRUE.
+LMAXMIX      = 4
+ADDGRID      = .TRUE.
+# ===== Mixing =====
+AMIX         = 0.2
+BMIX         = 1.00E-04
+AMIX_MAG     = 0.8
+BMIX_MAG     = 1.00E-04
+MAXMIX       = 40
+NELMDL       = -5
+# ===== Precision =====
+LREAL        = .FALSE.

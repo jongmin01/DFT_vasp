@@ -1,6 +1,0 @@
-/Library/Frameworks/Python.framework/Versions/3.13/bin/sumo-bandplot -f vasprun.xml -p KPOINTS --zero-line --ymin -3 --ymax 3 --format png
-Label positions:
-	0.0000: Γ
-	1.2975: K
-	1.9463: M
-	3.0700: Γ

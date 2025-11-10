@@ -5,33 +5,43 @@ This repository contains DFT (Density Functional Theory) calculations performed 
 ## Repository Structure
 
 ```
-DFT_vasp/
-├── projects/              # Research projects organized by topic
-│   ├── MoS2_monolayer/   # MoS2 monolayer calculations
-│   └── TMDC_Janus_heterostructure/  # Janus TMDC heterostructure studies
-│       └── twisted_angle/           # Twisted angle research
-├── scripts/              # Analysis and utility scripts
-│   ├── structure_generation/  # Structure creation scripts
-│   ├── analysis/             # Data analysis scripts
-│   └── plotting/             # Visualization scripts
-└── docs/                 # Documentation and notes
+vasp/
+├── projects/                       # One directory per research project
+│   ├── MoS2_monolayer/
+│   │   ├── 00_structure_generation/  # Seeds + project-specific generators
+│   │   ├── 10_relax/                # All relaxation runs
+│   │   ├── 20_static_scf/           # Static SCF calculations
+│   │   ├── 30_band/                 # Band-structure workflows
+│   │   ├── 40_dos/                  # DOS workflows
+│   │   └── 90_analysis/             # Plots, notebooks, summaries
+│   └── TMDC_Janus_heterostructure/  # Shares the same stage layout
+├── shared/
+│   ├── scripts/                     # Reusable helpers (HPC, plotting, builders)
+│   ├── templates/                   # Canonical INCAR/KPOINTS/job files
+│   └── tools/                       # Cross-project utilities (visualization, etc.)
+├── structures/
+│   ├── seed_structures/             # Global library of initial POSCARs
+│   └── reference/JARVIS/            # Reference data pulled from JARVIS
+└── docs/                            # Documentation and workflow notes
 ```
 
 ## Workflow
 
-1. **Structure Generation**: Create initial structures locally using scripts in `scripts/structure_generation/`
+1. **Structure Generation**: Create initial structures locally using scripts in `projects/<project>/00_structure_generation/` or reusable helpers in `shared/scripts/structure_generation/`
 2. **HPC Calculation**: Transfer input files to ANL carbon HPC for VASP calculations
 3. **Data Transfer**: Download essential files (INCAR, POSCAR, KPOINTS, CONTCAR, vasprun.xml) to local repository
 4. **Analysis & Plotting**: Analyze results and create plots locally using scripts
 
 ## Calculation Types
 
-Each material/system typically includes the following calculation directories:
+Each project now follows a consistent numbered pipeline so you can immediately locate files:
 
-- `relax/` - Structural optimization (relaxation)
-- `scf/` - Self-consistent field calculation
-- `band/` - Band structure calculation
-- `dos/` - Density of states calculation
+1. `00_structure_generation/` - Structural seeds, builders, and setup scripts
+2. `10_relax/` - Structural optimization (relaxations)
+3. `20_static_scf/` - Self-consistent field calculations (static runs)
+4. `30_band/` - Band structure calculations and post-processing
+5. `40_dos/` - Density of states calculations
+6. `90_analysis/` - Project-specific analysis, plots, and summaries
 
 ## Essential Files Kept in Repository
 
@@ -50,6 +60,11 @@ Large files and licensed files are excluded from the repository:
 - **WAVECAR** - Very large wavefunction files
 - **CHG/CHGCAR** - Large charge density files
 - **DOSCAR** - DOS data (data is in vasprun.xml)
+- **vasprun.xml** (selected cases) - Extremely large `vasprun.xml` snapshots under  
+  `projects/MoS2_monolayer/90_analysis/MoS2_strain_plots/*/soc/` and  
+  `projects/TMDC_Janus_heterostructure/20_static_scf/*/scf/` exceed GitHub's 100 MB limit,  
+  so they are stored locally only (see `.gitignore` for exact paths).  Derived plots and
+  summaries remain available in `90_analysis/`.
 
 ## Current Projects
 
@@ -75,7 +90,7 @@ Large files and licensed files are excluded from the repository:
 
 1. Create project directory under `projects/`
 2. Organize by research topic/material system
-3. Create subdirectories for different calculations (relax, scf, band, dos)
+3. Create the standard stage folders (`00_structure_generation`, `10_relax`, `20_static_scf`, `30_band`, `40_dos`, `90_analysis`)
 4. Add project description to this README
 
 ## Notes

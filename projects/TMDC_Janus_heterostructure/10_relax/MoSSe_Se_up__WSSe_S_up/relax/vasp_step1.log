@@ -1,0 +1,516 @@
+Loading vasp5/5.4/impi-5/intel-16/5.4.1.3-11
+  Loading requirement: intel/19/19.1.3 impi/2019/2019.Update.9
+Loading vasp5/5.4/impi-5/intel-16/5.4.1.3-11
+  Loading requirement: intel/19/19.1.3 impi/2019/2019.Update.9
+Loading ase/3.9/3.9.1-1
+  Loading requirement: python-intel/2.7/2018/2.7.14-2018.3.039-1
+Loading ase/3.9/3.9.1-1
+  Loading requirement: python-intel/2.7/2018/2.7.14-2018.3.039-1
+[0] MPI startup(): I_MPI_HYDRA_UUID environment variable is not supported.
+[0] MPI startup(): Similar variables:
+	 I_MPI_HYDRA_DEBUG
+	 I_MPI_HYDRA_ENV
+	 I_MPI_HYDRA_RMK
+	 I_MPI_HYDRA_IFACE
+	 I_MPI_HYDRA_DEMUX
+[0] MPI startup(): I_MPI_PM environment variable is not supported.
+[0] MPI startup(): Similar variables:
+	 I_MPI_PIN
+	 I_MPI_SHM
+	 I_MPI_PLATFORM
+	 I_MPI_PMI
+	 I_MPI_PMI_LIBRARY
+[0] MPI startup(): I_MPI_RANK_CMD environment variable is not supported.
+[0] MPI startup(): I_MPI_CMD environment variable is not supported.
+[0] MPI startup(): Similar variables:
+	 I_MPI_CC
+[0] MPI startup(): To check the list of supported variables, use the impi_info utility or refer to https://software.intel.com/en-us/mpi-library/documentation/get-started.
+ running on   48 total cores
+ distrk:  each k-point on   48 cores,    1 groups
+ distr:  one band on    1 cores,   48 groups
+ using from now: INCAR     
+ vasp.5.4.1 05Feb16 (build Feb 01 2017 11:31:40) complex                        
+  
+ POSCAR found type information on POSCAR  Mo W  S  Se
+ POSCAR found :  4 types and     150 ions
+ scaLAPACK will be used
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|           W    W    AA    RRRRR   N    N  II  N    N   GGGG   !!!           |
+|           W    W   A  A   R    R  NN   N  II  NN   N  G    G  !!!           |
+|           W    W  A    A  R    R  N N  N  II  N N  N  G       !!!           |
+|           W WW W  AAAAAA  RRRRR   N  N N  II  N  N N  G  GGG   !            |
+|           WW  WW  A    A  R   R   N   NN  II  N   NN  G    G                |
+|           W    W  A    A  R    R  N    N  II  N    N   GGGG   !!!           |
+|                                                                             |
+|      For optimal performance we recommend to set                            |
+|        NCORE= 4 - approx SQRT( number of cores)                             |
+|      NCORE specifies how many cores store one orbital (NPAR=cpu/NCORE).     |
+|      This setting can  greatly improve the performance of VASP for DFT.     |
+|      The default, NPAR=number of cores might be grossly inefficient         |
+|      on modern multi-core architectures or massively parallel machines.     |
+|      Do your own testing !!!!                                               |
+|      Unfortunately you need to use the default for GW and RPA calculations. |
+|      (for HF NCORE is supported but not extensively tested yet)             |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+
+ ----------------------------------------------------------------------------- 
+|                                                                             |
+|  ADVICE TO THIS USER RUNNING 'VASP/VAMP'   (HEAR YOUR MASTER'S VOICE ...):  |
+|                                                                             |
+|      You have a (more or less) 'large supercell' and for larger cells       |
+|      it might be more efficient to use real space projection operators      |
+|      So try LREAL= Auto  in the INCAR   file.                               |
+|      Mind: If you want to do a very accurate calculations keep the          |
+|      reciprocal projection scheme          (i.e. LREAL=.FALSE.)             |
+|                                                                             |
+ ----------------------------------------------------------------------------- 
+
+ LDA part: xc-table for Pade appr. of Perdew
+ POSCAR, INCAR and KPOINTS ok, starting setup
+ FFT: planning ...
+ WAVECAR not read
+ entering main loop
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.103067339645E+05    0.10307E+05   -0.56347E+05 11472   0.125E+03
+DAV:   2    -0.101929367548E+03   -0.10409E+05   -0.10026E+05 11808   0.323E+02
+DAV:   3    -0.107192227081E+04   -0.96999E+03   -0.95158E+03 11808   0.902E+01
+DAV:   4    -0.110697901961E+04   -0.35057E+02   -0.34623E+02 12432   0.182E+01
+DAV:   5    -0.110796498678E+04   -0.98597E+00   -0.98179E+00 12192   0.314E+00    0.664E+01
+DAV:   6    -0.108583403539E+04    0.22131E+02   -0.70551E+01 13248   0.137E+01    0.238E+01
+DAV:   7    -0.107879198690E+04    0.70420E+01   -0.53847E+01 11520   0.911E+00    0.142E+01
+DAV:   8    -0.107483172820E+04    0.39603E+01   -0.18572E+01 11520   0.770E+00    0.976E+00
+DAV:   9    -0.107356396827E+04    0.12678E+01   -0.11707E+01 11472   0.470E+00    0.561E+00
+DAV:  10    -0.107347978635E+04    0.84182E-01   -0.38259E+00 11040   0.205E+00    0.322E+00
+DAV:  11    -0.107323040497E+04    0.24938E+00   -0.66025E-01 11184   0.865E-01    0.125E+00
+DAV:  12    -0.107322941880E+04    0.98616E-03   -0.19396E-01 11904   0.440E-01    0.463E-01
+DAV:  13    -0.107322637665E+04    0.30422E-02   -0.39088E-02 11472   0.184E-01    0.289E-01
+DAV:  14    -0.107322592229E+04    0.45436E-03   -0.51857E-03 11712   0.932E-02    0.121E-01
+DAV:  15    -0.107322626014E+04   -0.33785E-03   -0.20051E-03 11184   0.614E-02    0.516E-02
+DAV:  16    -0.107322620804E+04    0.52103E-04   -0.36984E-04 11568   0.221E-02    0.379E-02
+DAV:  17    -0.107322616497E+04    0.43069E-04   -0.18032E-04 10944   0.132E-02    0.154E-02
+DAV:  18    -0.107322615370E+04    0.11268E-04   -0.37136E-05 10176   0.680E-03    0.806E-03
+DAV:  19    -0.107322615085E+04    0.28468E-05   -0.71047E-06  5760   0.328E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   1 F= -.11246473E+04 E0= -.11246473E+04  d E =-.112465E+04  mag=     0.0001
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ curvature:   0.00 expect dE= 0.000E+00 dE for cont linesearch  0.000E+00
+ trial: gam= 0.00000 g(F)=  0.212E+02 g(S)=  0.000E+00 ort = 0.000E+00 (trialstep = 0.100E+01)
+ search vector abs. value=  0.212E+02
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.105808560050E+04    0.15141E+02   -0.14115E+03 10176   0.615E+01    0.754E+00
+DAV:   2    -0.108095200282E+04   -0.22866E+02   -0.24267E+02  9792   0.186E+01    0.361E+00
+DAV:   3    -0.108103375788E+04   -0.81755E-01   -0.37427E+00 11760   0.241E+00    0.265E+00
+DAV:   4    -0.108093212131E+04    0.10164E+00   -0.74932E-01 11616   0.984E-01    0.107E+00
+DAV:   5    -0.108092431776E+04    0.78036E-02   -0.16549E-01 12096   0.478E-01    0.625E-01
+DAV:   6    -0.108091685693E+04    0.74608E-02   -0.43494E-02 11424   0.237E-01    0.295E-01
+DAV:   7    -0.108091566866E+04    0.11883E-02   -0.22423E-02 11760   0.175E-01    0.126E-01
+DAV:   8    -0.108091543629E+04    0.23237E-03   -0.23148E-03 11232   0.721E-02    0.818E-02
+DAV:   9    -0.108091524687E+04    0.18942E-03   -0.67075E-04 11424   0.368E-02    0.427E-02
+DAV:  10    -0.108091521199E+04    0.34879E-04   -0.38381E-04 11376   0.191E-02    0.199E-02
+DAV:  11    -0.108091518901E+04    0.22980E-04   -0.70533E-05 10416   0.926E-03    0.101E-02
+DAV:  12    -0.108091519098E+04   -0.19677E-05   -0.32020E-05 10128   0.710E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   2 F= -.11320969E+04 E0= -.11320969E+04  d E =-.744961E+01  mag=     0.0003
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ trial-energy change:   -7.449608  1 .order   -7.884252  -21.165455    5.396951
+ step:   0.7800(harm=  0.7968)  dis= 0.06805  next Energy= -1132.695233 (dE=-0.805E+01)
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.108037050351E+04    0.54469E+00   -0.68227E+01 10080   0.134E+01    0.161E+00
+DAV:   2    -0.108144874479E+04   -0.10782E+01   -0.11203E+01  9792   0.396E+00    0.385E-01
+DAV:   3    -0.108145746848E+04   -0.87237E-02   -0.18622E-01 11520   0.509E-01    0.114E-01
+DAV:   4    -0.108145847781E+04   -0.10093E-02   -0.11557E-02 13152   0.122E-01    0.984E-02
+DAV:   5    -0.108145824112E+04    0.23668E-03   -0.85930E-04 11712   0.324E-02    0.495E-02
+DAV:   6    -0.108145816352E+04    0.77607E-04   -0.19070E-04 11952   0.179E-02    0.167E-02
+DAV:   7    -0.108145815953E+04    0.39862E-05   -0.90022E-05 10848   0.878E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   3 F= -.11326953E+04 E0= -.11326953E+04  d E =-.804809E+01  mag=    -0.0002
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ curvature:  -0.40 expect dE=-0.394E+00 dE for cont linesearch -0.532E-07
+ trial: gam= 0.04701 g(F)=  0.997E+00 g(S)=  0.000E+00 ort = 0.169E-02 (trialstep = 0.956E+00)
+ search vector abs. value=  0.104E+01
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.108194539232E+04   -0.48723E+00   -0.31327E+01 10080   0.527E+00    0.134E+00
+DAV:   2    -0.108220488219E+04   -0.25949E+00   -0.28752E+00 10656   0.171E+00    0.661E-01
+DAV:   3    -0.108219687941E+04    0.80028E-02   -0.98249E-02 11520   0.376E-01    0.420E-01
+DAV:   4    -0.108219365062E+04    0.32288E-02   -0.40577E-02 11424   0.290E-01    0.253E-01
+DAV:   5    -0.108219101911E+04    0.26315E-02   -0.20456E-02 11328   0.200E-01    0.147E-01
+DAV:   6    -0.108219057203E+04    0.44708E-03   -0.18787E-03 12096   0.418E-02    0.941E-02
+DAV:   7    -0.108219031804E+04    0.25399E-03   -0.13017E-03 11088   0.347E-02    0.344E-02
+DAV:   8    -0.108219027848E+04    0.39567E-04   -0.45640E-04 11376   0.227E-02    0.149E-02
+DAV:   9    -0.108219027076E+04    0.77113E-05   -0.47700E-05 10128   0.759E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   4 F= -.11333399E+04 E0= -.11333399E+04  d E =-.644607E+00  mag=    -0.0001
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ trial-energy change:   -0.644607  1 .order   -0.648257   -0.952900   -0.343614
+ step:   1.5280(harm=  1.4951)  dis= 0.02886  next Energy= -1133.441960 (dE=-0.747E+00)
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.108225733953E+04   -0.67061E-01   -0.11217E+01 10176   0.315E+00    0.789E-01
+DAV:   2    -0.108234185429E+04   -0.84515E-01   -0.95304E-01 10560   0.981E-01    0.584E-02
+DAV:   3    -0.108234406584E+04   -0.22116E-02   -0.22755E-02 12576   0.144E-01    0.353E-02
+DAV:   4    -0.108234406983E+04   -0.39856E-05   -0.70680E-04 10656   0.266E-02    0.196E-02
+DAV:   5    -0.108234406853E+04    0.12963E-05   -0.87840E-05 11520   0.102E-02
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   5 F= -.11334413E+04 E0= -.11334413E+04  d E =-.745983E+00  mag=    -0.0004
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ curvature:  -0.78 expect dE=-0.689E-01 dE for cont linesearch -0.280E-05
+ trial: gam= 0.09893 g(F)=  0.883E-01 g(S)=  0.000E+00 ort =-0.194E-02 (trialstep = 0.107E+01)
+ search vector abs. value=  0.982E-01
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.108229170717E+04    0.52363E-01   -0.68194E+00 10272   0.412E+00    0.516E-01
+DAV:   2    -0.108240341869E+04   -0.11171E+00   -0.11059E+00  9792   0.126E+00    0.488E-01
+DAV:   3    -0.108239460407E+04    0.88146E-02   -0.69040E-02 11328   0.359E-01    0.204E-01
+DAV:   4    -0.108239399460E+04    0.60947E-03   -0.10485E-02 11328   0.139E-01    0.118E-01
+DAV:   5    -0.108239430749E+04   -0.31289E-03   -0.46318E-03 11424   0.749E-02    0.119E-01
+DAV:   6    -0.108239371884E+04    0.58865E-03   -0.28477E-03 11088   0.617E-02    0.384E-02
+DAV:   7    -0.108239374257E+04   -0.23730E-04   -0.45095E-04 11232   0.216E-02    0.219E-02
+DAV:   8    -0.108239374331E+04   -0.74085E-06   -0.43674E-05 10176   0.765E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   6 F= -.11334767E+04 E0= -.11334767E+04  d E =-.354139E-01  mag=    -0.0001
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ trial-energy change:   -0.035414  1 .order   -0.035612   -0.094347    0.023123
+ step:   0.8580(harm=  0.8597)  dis= 0.00554  next Energy= -1133.479029 (dE=-0.377E-01)
+ bond charge predicted
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1    -0.108238918905E+04    0.45535E-02   -0.26840E-01 10272   0.817E-01    0.104E-01
+DAV:   2    -0.108239314140E+04   -0.39524E-02   -0.41829E-02  9792   0.241E-01    0.112E-02
+DAV:   3    -0.108239320201E+04   -0.60609E-04   -0.55217E-04 11856   0.278E-02    0.690E-03
+DAV:   4    -0.108239320287E+04   -0.85555E-06   -0.19062E-05  9216   0.517E-03
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+   7 F= -.11334790E+04 E0= -.11334790E+04  d E =-.377143E-01  mag=    -0.0001
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ CELL_RELAX not present: performing unconstrained unit cell relaxation
+ curvature:  -0.48 expect dE=-0.592E-03 dE for cont linesearch -0.101E-06
+ trial: gam= 0.01007 g(F)=  0.124E-02 g(S)=  0.000E+00 ort = 0.144E-03 (trialstep = 0.103E+01)
+ search vector abs. value=  0.125E-02
+ reached required accuracy - stopping structural energy minimisation
+ writing wavefunctions
