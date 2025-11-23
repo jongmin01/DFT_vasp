@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import sys
 import os
+import gzip
 from typing import List, Dict, Optional, Tuple
 
 # Import local modules
@@ -32,10 +33,15 @@ def get_kpath_distance(kpoints: np.ndarray) -> np.ndarray:
 
 
 def read_fermi_energy(doscar_file: str = 'DOSCAR') -> float:
-    """Read Fermi energy from DOSCAR"""
+    """Read Fermi energy from DOSCAR (supports .gz compressed files)"""
     try:
-        with open(doscar_file, 'r') as f:
-            lines = f.readlines()
+        # Check if file is gzip compressed
+        if doscar_file.endswith('.gz'):
+            with gzip.open(doscar_file, 'rt', encoding='utf-8') as f:
+                lines = f.readlines()
+        else:
+            with open(doscar_file, 'r') as f:
+                lines = f.readlines()
         header = lines[5].split()
         efermi = float(header[3])
         return efermi
@@ -45,7 +51,7 @@ def read_fermi_energy(doscar_file: str = 'DOSCAR') -> float:
 
 def identify_tmdc_layers(poscar_file: str) -> Dict[str, List[int]]:
     """
-    Identify TMDC layers from POSCAR file
+    Identify TMDC layers from POSCAR file (supports .gz compressed files)
 
     For MoSSe/WSSe heterostructure, atoms are typically ordered as:
     Mo S Se W S Se (or similar)
@@ -53,8 +59,13 @@ def identify_tmdc_layers(poscar_file: str) -> Dict[str, List[int]]:
     Returns:
         Dictionary mapping layer names to atom indices
     """
-    with open(poscar_file, 'r') as f:
-        lines = f.readlines()
+    # Check if file is gzip compressed
+    if poscar_file.endswith('.gz'):
+        with gzip.open(poscar_file, 'rt', encoding='utf-8') as f:
+            lines = f.readlines()
+    else:
+        with open(poscar_file, 'r') as f:
+            lines = f.readlines()
 
     # Line 5: atom types
     # Line 6: number of each atom type

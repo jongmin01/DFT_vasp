@@ -9,11 +9,14 @@ This module provides functionality to parse VASP PROCAR files and extract:
 - Atom-resolved projections
 - Spin-resolved data (if available)
 
+Supports both plain text and gzip-compressed PROCAR files.
+
 For TMDC Janus heterostructures (MoSSe/WSSe)
 """
 
 import numpy as np
 import re
+import gzip
 from dataclasses import dataclass
 from typing import Dict, List, Tuple, Optional
 
@@ -51,13 +54,19 @@ class ProcarParser:
 
     def parse(self) -> ProcarData:
         """
-        Parse PROCAR file
+        Parse PROCAR file (supports .gz compressed files)
 
         Returns:
             ProcarData object containing all parsed data
         """
-        with open(self.filename, 'r') as f:
-            lines = f.readlines()
+        # Check if file is gzip compressed
+        if self.filename.endswith('.gz'):
+            print(f"Reading compressed PROCAR file: {self.filename}")
+            with gzip.open(self.filename, 'rt', encoding='utf-8') as f:
+                lines = f.readlines()
+        else:
+            with open(self.filename, 'r') as f:
+                lines = f.readlines()
 
         # Parse header
         header_info = self._parse_header(lines)

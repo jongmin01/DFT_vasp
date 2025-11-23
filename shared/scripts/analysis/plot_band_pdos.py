@@ -16,6 +16,7 @@ import matplotlib.gridspec as gridspec
 from typing import List, Dict, Optional, Tuple
 import sys
 import os
+import gzip
 
 # Import local modules
 import procar_parser as pp
@@ -31,10 +32,15 @@ def get_kpath_distance(kpoints: np.ndarray) -> np.ndarray:
 
 
 def read_fermi_energy(doscar_file: str = 'DOSCAR') -> float:
-    """Read Fermi energy from DOSCAR"""
+    """Read Fermi energy from DOSCAR (supports .gz compressed files)"""
     try:
-        with open(doscar_file, 'r') as f:
-            lines = f.readlines()
+        # Check if file is gzip compressed
+        if doscar_file.endswith('.gz'):
+            with gzip.open(doscar_file, 'rt', encoding='utf-8') as f:
+                lines = f.readlines()
+        else:
+            with open(doscar_file, 'r') as f:
+                lines = f.readlines()
         header = lines[5].split()
         efermi = float(header[3])
         return efermi
@@ -44,15 +50,20 @@ def read_fermi_energy(doscar_file: str = 'DOSCAR') -> float:
 
 def read_doscar_total(doscar_file: str = 'DOSCAR') -> Tuple[np.ndarray, np.ndarray, float]:
     """
-    Read total DOS from DOSCAR
+    Read total DOS from DOSCAR (supports .gz compressed files)
 
     Returns:
         energy: Energy values
         dos: Total DOS
         efermi: Fermi energy
     """
-    with open(doscar_file, 'r') as f:
-        lines = f.readlines()
+    # Check if file is gzip compressed
+    if doscar_file.endswith('.gz'):
+        with gzip.open(doscar_file, 'rt', encoding='utf-8') as f:
+            lines = f.readlines()
+    else:
+        with open(doscar_file, 'r') as f:
+            lines = f.readlines()
 
     # Line 6: NEDOS, Fermi energy
     header = lines[5].split()
