@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N band_clean
+#PBS -A cnm84150
+#PBS -q batch
+#PBS -l nodes=4:ppn=16:gen6
+#PBS -l walltime=24:00:00
+#PBS -l naccesspolicy=SINGLEJOB -n
+#PBS -j oe
+#PBS -m abe
+#PBS -M jbaek27@uic.edu
+
+echo "========================================"
+echo "Band Structure Calculation (Clean Start)"
+echo "Started: $(date)"
+echo "========================================"
+
+module load vasp5
+cd $PBS_O_WORKDIR
+
+echo "Working directory: $(pwd)"
+echo "Job ID: $PBS_JOBID"
+echo ""
+
+# Simple file check
+echo "Input files:"
+ls -lh POSCAR INCAR KPOINTS POTCAR 2>&1 | awk '{print "  "$9" "$5}'
+echo ""
+
+# Run VASP
+echo "Starting VASP..."
+time mpirun -np $PBS_NP vasp_std
+
+echo ""
+echo "========================================"
+echo "Finished: $(date)"
+echo "========================================"
+
+# Quick check
+if [ -f OUTCAR ]; then
+    echo ""
+    echo "Results:"
+    echo "  OUTCAR size: $(ls -lh OUTCAR | awk '{print $5}')"
+    
+    if [ -f EIGENVAL ]; then
+        lines=$(wc -l < EIGENVAL)
+        echo "  EIGENVAL lines: $lines"
+    fi
+    
+    if grep -q "reached" OUTCAR; then
+        echo "  Status: Converged"
+    else
+        echo "  Status: Check OUTCAR"
+    fi
+fi

@@ -1,0 +1,120 @@
+Loading vasp5/5.4/impi-5/intel-16/5.4.1.3-11
+  Loading requirement: intel/19/19.1.3 impi/2019/2019.Update.9
+Loading ase/3.9/3.9.1-1
+  Loading requirement: python-intel/2.7/2018/2.7.14-2018.3.039-1
+========================================
+Job started on n469 at Fri Nov  7 03:14:01 CST 2025
+Job ID: 3233948.sched5.carboncluster
+Job Name: static_scf
+Working directory: /home/jbaek/vasp/hetero/Janus/relax_0deg_structures/MoSSe_S_up__WSSe_Se_up/static_scf
+========================================
+Currently Loaded Modulefiles:
+ 1) profile/user/2/2.3(default:profile)                                      
+ 2) intel/19/19.1.3(default:intel) <aL>                                      
+ 3) impi/2019/2019.Update.9(default:impi) <aL>                               
+ 4) vasp5/5.4/impi-5/intel-16/5.4.1.3-11(5.4:default:default:default:vasp5)  
+ 5) python-intel/2.7/2018/2.7.14-2018.3.039-1(default:python-intel) <aL>     
+ 6) ase/3.9/3.9.1-1                                                          
+
+Key:
+(symbolic-version)  <module-tag>  <aL>=auto-loaded  
+Running in: /home/jbaek/vasp/hetero/Janus/relax_0deg_structures/MoSSe_S_up__WSSe_Se_up/static_scf
+Nodes allocated:
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n469
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+n468
+
+Number of cores: 32
+
+========================================
+Checking input files...
+  OK: POSCAR (16825 bytes)
+  OK: INCAR (868 bytes)
+  OK: KPOINTS (67 bytes)
+  OK: POTCAR (689794 bytes)
+========================================
+
+INCAR settings:
+SYSTEM       = MoSSe-WSSe static SCF calculation
+IBRION       = -1
+NSW          = 0
+EDIFF        = 1.00E-06
+LORBIT       = 11
+NEDOS        = 3000
+
+KPOINTS:
+Automatic mesh (denser for static calculation)
+0
+Gamma
+7 7 1
+
+Structure info:
+   Mo   W    S    Se
+    25    25    50    50
+========================================
+
+Starting static SCF calculation at Fri Nov  7 03:14:02 CST 2025
+Command: mpirun -np 32 vasp_std
+
+
+real	1102m25.298s
+user	17625m40.892s
+sys	9m45.200s
+
+========================================
+Job finished at Fri Nov  7 21:36:27 CST 2025
+========================================
+
+OUTCAR found - calculation completed
+
+WARNING: Check convergence in OUTCAR
+
+Final energy:
+  free  energy   TOTEN  =     -1133.27649385 eV
+
+Fermi level:
+ E-fermi :  -0.1003     XC(G=0):  -5.5473     alpha+bet : -5.2851
+
+Output files:
+  CHG: 559M
+  CHGCAR: 841M
+  DOSCAR: 99M
+  EIGENVAL: 364K
+  OUTCAR: 595K
+  WAVECAR: 17G
+
+Job summary:
+  Working directory: /home/jbaek/vasp/hetero/Janus/relax_0deg_structures/MoSSe_S_up__WSSe_Se_up/static_scf
+  Job ID: 3233948.sched5.carboncluster
+========================================
+End of static SCF calculation
+========================================

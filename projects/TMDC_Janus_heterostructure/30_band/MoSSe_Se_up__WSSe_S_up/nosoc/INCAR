@@ -1,0 +1,43 @@
+# ===== System =====
+SYSTEM       = MoSSe-WSSe band structure
+
+# ===== Band Structure - Self-consistent =====
+IBRION       = -1
+NSW          = 0
+ICHARG       = 2            # Start from scratch
+NELM         = 60           # Should converge quickly
+
+# ===== Electronic Structure =====
+PREC         = Accurate
+ENCUT        = 520
+EDIFF        = 1.00E-05     # Slightly relaxed
+ALGO         = Fast         # Faster for band calculations
+NELMIN       = 5
+
+# ===== Spin Polarization =====
+ISPIN        = 2
+MAGMOM       = 25*2.0 25*2.0 50*0.0 50*0.0
+
+# ===== vdW Correction =====
+IVDW         = 12
+
+# ===== k-space Integration =====
+ISMEAR       = 0
+SIGMA        = 0.05
+
+# ===== Output =====
+LORBIT       = 11
+LWAVE        = .FALSE.
+LCHARG       = .FALSE.
+NEDOS        = 2000
+
+# ===== Accuracy =====
+LASPH        = .TRUE.
+LMAXMIX      = 4
+LREAL        = Auto
+
+# ===== Mixing =====
+AMIX         = 0.2
+BMIX         = 1.00E-04
+AMIX_MAG     = 0.8
+BMIX_MAG     = 1.00E-04
