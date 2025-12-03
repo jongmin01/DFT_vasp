@@ -1,0 +1,111 @@
+======================================================================
+BAND GAP SUMMARY
+======================================================================
+
+Fundamental (Indirect) Gap: 1.4336 eV
+K Valley Direct Gap:       1.5693 eV
+Γ Point Direct Gap:        1.7786 eV
+
+======================================================================
+FUNDAMENTAL GAP ANALYSIS (INDIRECT)
+======================================================================
+
+VBM (Valence Band Maximum):
+  Energy: -0.2337 eV (relative to E_F)
+  k-point index: 80
+  k-point coordinates: (0.33333, 0.33333, 0.00000)
+  Band index: 599
+
+  Layer contributions:
+    MoSSe          :   0.0000 (0.00%)
+    WSSe           :   0.7000 (70.00%)
+    Total          :   0.7000 (70.00%)
+
+CBM (Conduction Band Minimum):
+  Energy: 1.1999 eV (relative to E_F)
+  k-point index: 104
+  k-point coordinates: (0.13333, 0.13333, 0.00000)
+  Band index: 600
+
+  Layer contributions:
+    MoSSe          :   0.7000 (70.00%)
+    WSSe           :   0.0000 (0.00%)
+    Total          :   0.7000 (70.00%)
+
+======================================================================
+K VALLEY DIRECT GAP ANALYSIS
+======================================================================
+
+k-point index: 80
+k-point coordinates: (0.33333, 0.33333, 0.00000)
+Direct bandgap at K: 1.5693 eV
+
+E_VB(K) - Valence Band at K:
+  Energy: -0.2337 eV (relative to E_F)
+  Band index: 599
+
+  Layer contributions:
+    MoSSe          :   0.0000 (0.00%)
+    WSSe           :   0.7000 (70.00%)
+    Total          :   0.7000 (70.00%)
+
+E_CB(K) - Conduction Band at K:
+  Energy: 1.3356 eV (relative to E_F)
+  Band index: 600
+
+  Layer contributions:
+    MoSSe          :   0.9000 (90.00%)
+    WSSe           :   0.0000 (0.00%)
+    Total          :   0.9000 (90.00%)
+
+Dominant layer at E_VB(K): WSSe (70.0%)
+Dominant layer at E_CB(K): MoSSe (90.0%)
+
+======================================================================
+Γ POINT DIRECT GAP ANALYSIS
+======================================================================
+
+k-point index: 0
+k-point coordinates: (0.00000, 0.00000, 0.00000)
+Direct bandgap at Γ: 1.7786 eV
+
+E_VB(Γ) - Valence Band at Γ:
+  Energy: -0.5099 eV (relative to E_F)
+  Band index: 598
+
+  Layer contributions:
+    MoSSe          :   0.0000 (0.00%)
+    WSSe           :   0.6730 (67.30%)
+    Total          :   0.6730 (67.30%)
+
+E_CB(Γ) - Conduction Band at Γ:
+  Energy: 1.2687 eV (relative to E_F)
+  Band index: 600
+
+  Layer contributions:
+    MoSSe          :   0.6860 (68.60%)
+    WSSe           :   0.0000 (0.00%)
+    Total          :   0.6860 (68.60%)
+
+Dominant layer at E_VB(Γ): WSSe (67.3%)
+Dominant layer at E_CB(Γ): MoSSe (68.6%)
+
+======================================================================
+NOTE
+======================================================================
+
+K' valley not included in current k-path.
+For complete valley analysis, K' valley calculation is needed.
+
+======================================================================
+BAND ALIGNMENT ANALYSIS
+======================================================================
+
+VBM dominated by: WSSe (70.0%)
+CBM dominated by: MoSSe (70.0%)
+
+Band Alignment: Type-II (staggered)
+  → VBM and CBM localized on different layers
+  → Spatial separation of electrons and holes
+  → Favorable for charge separation and exciton formation
+======================================================================
